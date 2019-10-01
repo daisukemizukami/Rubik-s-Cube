@@ -186,7 +186,7 @@ public class RubicCube : MonoBehaviour
 
             foreach (var quaternion in quaternions)
             {
-                cubelayer.lc.rotation = quaternion;
+                cubelayer.lc.localRotation = quaternion;
                 //after rendering
                 yield return new WaitForEndOfFrame();
             }
@@ -366,9 +366,9 @@ public class CubeLayer
         l6.SetParent(lc, true);
         l7.SetParent(lc, true);
 
-        Debug.Log(l0.gameObject.name + l1.gameObject.name + l2.gameObject.name);
-        Debug.Log(l7.gameObject.name + lc.gameObject.name + l3.gameObject.name);
-        Debug.Log(l6.gameObject.name + l5.gameObject.name + l4.gameObject.name);
+        //Debug.Log(l0.gameObject.name + l1.gameObject.name + l2.gameObject.name);
+        //Debug.Log(l7.gameObject.name + lc.gameObject.name + l3.gameObject.name);
+        //Debug.Log(l6.gameObject.name + l5.gameObject.name + l4.gameObject.name);
 
     }
 
