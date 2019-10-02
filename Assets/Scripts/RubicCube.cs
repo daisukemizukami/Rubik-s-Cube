@@ -10,6 +10,7 @@ public class RubicCube : MonoBehaviour
 	[SerializeField] Transform cubeContainer;
 	[SerializeField] public bool isRotating;
     [SerializeField] int _count = 25;
+    [SerializeField] GameObject touchmanager;
     public Func<float, float> easing;
 
     /*  cube map layout
@@ -32,152 +33,150 @@ public class RubicCube : MonoBehaviour
 	{
 		isRotating = false;
         easing = Easings.CubicEaseInOut;
+        StartCoroutine(TouchManagerSetActive());
+    }
+
+    //TODO check TouchManager behavior
+    IEnumerator TouchManagerSetActive()
+    {
+        yield return new WaitForSeconds(.3f);
+
+        touchmanager.SetActive(true);
     }
 
 
-    /// <summary>
-    /// rotate test method 
-    /// </summary>
-    public void PressButtonF()
+/// <summary>
+/// rotate test method 
+/// </summary>
+public void PressButtonF()
     {
-        if (!isRotating)
-        {
-            isRotating = true;
-            RotateCW(ELayer.F);
-        }
+       
+            RotateCW(ELayer.F, true);
+        
     }
     public void PressButtonR()
     {
-        if (!isRotating)
-        {
-            isRotating = true;
+    
 
-            RotateCW(ELayer.R);
-        }
+            RotateCW(ELayer.R, true);
+        
     }
 
     public void PressButtonU()
     {
-        if (!isRotating)
-        {
-            isRotating = true;
+        
 
-            RotateCW(ELayer.U);
-        }
+            RotateCW(ELayer.U, true);
+        
     }
     public void PressButtonL()
     {
-        if (!isRotating)
-        {
-            isRotating = true;
+     
 
-            RotateCW(ELayer.L);
-        }
+            RotateCW(ELayer.L, true);
+        
     }
     public void PressButtonB()
     {
-        if (!isRotating)
-        {
-            isRotating = true;
+      
 
-            RotateCW(ELayer.B);
-        }
+            RotateCW(ELayer.B, true);
+        
     }
     public void PressButtonD()
     {
-        if (!isRotating)
-        {
-            isRotating = true;
+      
 
-            RotateCW(ELayer.D);
-        }
+            RotateCW(ELayer.D, true);
+        
     }
     public void PressButtonM()
     {
-        if (!isRotating)
-        {
-            isRotating = true;
+     
 
-            RotateCW(ELayer.M);
-        }
+            RotateCW(ELayer.M, true);
+        
     }
     public void PressButtonE()
     {
-        if (!isRotating)
-        {
-            isRotating = true;
+     
 
-            RotateCW(ELayer.E);
-        }
+            RotateCW(ELayer.E, true);
+     
     }
     public void PressButtonS()
     {
+    
+
+            RotateCW(ELayer.S,true);
+        
+    }
+
+    //TODO isCW?
+    public void RotateCW(ELayer layer,bool isInverse)
+    {
         if (!isRotating)
         {
             isRotating = true;
 
-            RotateCW(ELayer.S);
-        }
-    }
-
-    public void RotateCW(ELayer layer)
-    {
-        switch(layer)
-        {
-            case ELayer.F:
-                Debug.Log("F");
-                StartCoroutine( RotateCube(F,_count,easing,Vector3.back));
-                F = F.RotateCW();
-                break;
-            case ELayer.R:
-                Debug.Log("R");
-                StartCoroutine(RotateCube(R, _count, easing, Vector3.right));
-                R = R.RotateCW();
-                break;
-            case ELayer.U:
-                Debug.Log("U");
-                StartCoroutine(RotateCube(U, _count, easing, Vector3.up));
-                U = U.RotateCW();
-                break;
-            case ELayer.L:
-                Debug.Log("L");
-                StartCoroutine(RotateCube(L, _count, easing, Vector3.right));
-                L = L.RotateCW();
-                break;
-            case ELayer.B:
-                Debug.Log("B");
-                StartCoroutine(RotateCube(B, _count, easing, Vector3.back));
-                B = B.RotateCW();
-                break;
-            case ELayer.D:
-                Debug.Log("D");
-                StartCoroutine(RotateCube(D, _count, easing, Vector3.up));
-                D = D.RotateCW();
-                break;
-            case ELayer.M:
-                Debug.Log("M");
-                StartCoroutine(RotateCube(M, _count, easing, Vector3.right));
-                M = M.RotateCW();
-                break;
-            case ELayer.E:
-                Debug.Log("E");
-                StartCoroutine(RotateCube(E, _count, easing, Vector3.up));
-                E = E.RotateCW();
-                break;
-            case ELayer.S:
-                Debug.Log("S");
-                StartCoroutine(RotateCube(S, _count, easing, Vector3.back));
-                S = S.RotateCW();
-                break;
+            switch (layer)
+            {
+                case ELayer.F:
+                    Debug.Log("F");
+                    StartCoroutine(RotateCube(F, _count, easing, Vector3.back, isInverse));
+                    F = F.RotateCW(isInverse);
+                    break;
+                case ELayer.R:
+                    Debug.Log("R");
+                    StartCoroutine(RotateCube(R, _count, easing, Vector3.right, isInverse));
+                    R = R.RotateCW(isInverse);
+                    break;
+                case ELayer.U:
+                    Debug.Log("U");
+                    StartCoroutine(RotateCube(U, _count, easing, Vector3.up, isInverse));
+                    U = U.RotateCW(isInverse);
+                    break;
+                case ELayer.L:
+                    Debug.Log("L");
+                    StartCoroutine(RotateCube(L, _count, easing, Vector3.right, isInverse));
+                    L = L.RotateCW(isInverse);
+                    break;
+                case ELayer.B:
+                    Debug.Log("B");
+                    StartCoroutine(RotateCube(B, _count, easing, Vector3.back, isInverse));
+                    B = B.RotateCW(isInverse);
+                    break;
+                case ELayer.D:
+                    Debug.Log("D");
+                    StartCoroutine(RotateCube(D, _count, easing, Vector3.up, isInverse));
+                    D = D.RotateCW(isInverse);
+                    break;
+                case ELayer.M:
+                    Debug.Log("M");
+                    StartCoroutine(RotateCube(M, _count, easing, Vector3.right, isInverse));
+                    M = M.RotateCW(isInverse);
+                    break;
+                case ELayer.E:
+                    Debug.Log("E");
+                    StartCoroutine(RotateCube(E, _count, easing, Vector3.up, isInverse));
+                    E = E.RotateCW(isInverse);
+                    break;
+                case ELayer.S:
+                    Debug.Log("S");
+                    StartCoroutine(RotateCube(S, _count, easing, Vector3.back, isInverse));
+                    S = S.RotateCW(isInverse);
+                    break;
+            }
         }
 
-        IEnumerator RotateCube(CubeLayer cubelayer, int _count, Func<float, float> curve,Vector3 axis)
+        IEnumerator RotateCube(CubeLayer cubelayer, int _count, Func<float, float> curve,Vector3 axis, bool isCW)
         {
+            var aDegree = isCW ? 90f : -90f;
 
             cubelayer.SetParentCenter();
             var from = cubelayer.lc.rotation;
 
-            var to = Quaternion.AngleAxis(90f, axis);
+            var to = Quaternion.AngleAxis(aDegree, axis);
 
             var quaternions = Enumerable.Range(1, _count)
                 .Select(i => (float)i / (float)_count)
@@ -192,16 +191,11 @@ public class RubicCube : MonoBehaviour
             }
 
 
-     
-
-
-
             cubelayer.SetParentRootobj(cubeContainer);
 
             Debug.Log("LotateEND");
 
             isRotating = false;
-
 
         }
     }
@@ -215,9 +209,6 @@ public class RubicCube : MonoBehaviour
         get { return new CubeLayer(cubes[10], cubes[18], cubes[19], cubes[20], cubes[11], cubes[2], cubes[1], cubes[0],cubes[9]); }
         set
         {
-            // l0 l1 l2 
-            // l7 lc l3 
-            // l6 l5 l4 
             cubes[18] = value.l0; cubes[19] = value.l1; cubes[20] = value.l2;
             cubes[ 9] = value.l7; cubes[10] = value.lc; cubes[11] = value.l3;
             cubes[ 0] = value.l6; cubes[ 1] = value.l5; cubes[ 2] = value.l4;
@@ -350,10 +341,23 @@ public class CubeLayer
     // l7 lc l3 --> l5 lc l1
     // l6 l5 l4 --> l4 l3 l2
 
-    public CubeLayer RotateCW()
+    public CubeLayer RotateCW(bool isCW)
     {
-        return new CubeLayer(lc, l6, l7, l0, l1, l2, l3, l4, l5);
+        if (isCW)
+        {
+            return new CubeLayer(lc, l6, l7, l0, l1, l2, l3, l4, l5);
+
+        }else
+        {
+            // c0 c1 c2 --> c2 c3 c4
+            // c7 C  c3 --> c1 C  c5
+            // c6 c5 c4 --> c0 c7 c6
+            return new CubeLayer(lc, l2, l3, l4, l5, l6, l7, l0, l1);
+        }
     }
+
+
+  
 
     public void SetParentCenter()
     {
