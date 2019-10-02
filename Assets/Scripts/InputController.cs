@@ -14,7 +14,7 @@ public class InputController : MonoBehaviour
 
     private void OnEnable()
     {
-        GetComponent<FlickGesture>().Flicked += OnFlick;
+        //GetComponent<FlickGesture>().Flicked += OnFlick;
         //GetComponent<TapGesture>().Tapped += tappedHandle;
     }
     private void OnDisable()
@@ -44,53 +44,58 @@ public class InputController : MonoBehaviour
 
         Debug.Log("velocity:" + velocity);
 
-        velocity = rigidbody.transform.InverseTransformDirection(velocity);
-
-
-        if (Mathf.Abs(velocity.x) > Mathf.Abs(velocity.y))
+        if (velocity == Vector3.zero)
         {
-            velocity = new Vector3 (velocity.x, 0f, 0f);
-            Debug.Log("x:");
-
-            if(velocity.x>0)
-            {
-                rigidbody.transform.localPosition = new Vector3(rigidbody.transform.localPosition.x + .1f, rigidbody.transform.localPosition.y, rigidbody.transform.localPosition.z);
-            }
-            else
-            {
-                rigidbody.transform.localPosition = new Vector3(rigidbody.transform.localPosition.x - .1f, rigidbody.transform.localPosition.y, rigidbody.transform.localPosition.z);
-
-            }
-
-        }
-        else
-        {
-            velocity = new Vector3 (0f,velocity.y, 0f);
-            Debug.Log("y:");
-
-            if (velocity.y > 0)
-            {
-                rigidbody.transform.localPosition = new Vector3(rigidbody.transform.localPosition.x , rigidbody.transform.localPosition.y + .1f, rigidbody.transform.localPosition.z);
-            }
-            else
-            {
-                rigidbody.transform.localPosition = new Vector3(rigidbody.transform.localPosition.x, rigidbody.transform.localPosition.y - .1f, rigidbody.transform.localPosition.z);
-
-            }
-
+            Debug.Log("zero:");
+            return;
 
         }
 
+        //velocity = rigidbody.transform.InverseTransformDirection(velocity);
 
 
-        //rigidbody.AddForce(velocity, ForceMode.VelocityChange);
+        //if (Mathf.Abs(velocity.x) > Mathf.Abs(velocity.y))
+        //{
+        //    velocity = new Vector3 (velocity.x, 0f, 0f);
+
+        //    if(velocity.x>0)
+        //    {
+        //        Debug.Log("x+");
+
+        //        rigidbody.transform.localPosition = new Vector3(rigidbody.transform.localPosition.x + .1f, rigidbody.transform.localPosition.y, rigidbody.transform.localPosition.z);
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("x-");
+        //        rigidbody.transform.localPosition = new Vector3(rigidbody.transform.localPosition.x - .1f, rigidbody.transform.localPosition.y, rigidbody.transform.localPosition.z);
+        //    }
+
+        //}
+        //else
+        //{
+        //    velocity = new Vector3 (0f,velocity.y, 0f);
+        //    Debug.Log("y:");
+
+        //    if (velocity.y > 0)
+        //    {
+        //        Debug.Log("y+");
+
+        //        rigidbody.transform.localPosition = new Vector3(rigidbody.transform.localPosition.x , rigidbody.transform.localPosition.y + .1f, rigidbody.transform.localPosition.z);
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("y-");
+
+        //        rigidbody.transform.localPosition = new Vector3(rigidbody.transform.localPosition.x, rigidbody.transform.localPosition.y - .1f, rigidbody.transform.localPosition.z);
+
+        //    }
 
 
-        //Debug.Log("        gesture.PreviousScreenPosition.x:" + gesture.PreviousScreenPosition.x);
-        //Debug.Log("        gesture.ScreenPosition.x:" + gesture.ScreenPosition.x);
+        //}
 
 
-
+        rigidbody.velocity = Vector3.zero;
+        rigidbody.AddForce(velocity/10f, ForceMode.VelocityChange);
 
         Debug.Log("velocity:" + velocity);
 
