@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - toppanel
+  - rightpanel
+  - leftpanel
+  - frontpanel
+  - bottompanel
+  - backpanel
   layers:
   - Default
   - TransparentFX
