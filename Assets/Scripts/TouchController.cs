@@ -7,41 +7,34 @@ using System;
 public class TouchController : MonoBehaviour
 {
     RubicCube rubikcube;
+
+    //TODO if add cubesize layerX parameter selecion from editor change to script (use tag and cubename)
     [SerializeField] ELayer layerX;
     [SerializeField] ELayer layerY;
-    [SerializeField] bool inverseX = false;
-    [SerializeField] bool inverseY = false;
 
     private bool isCW_X = true;
     private bool isCW_Y = true;
 
     private Vector2 pressedposition;
+    private string panelname;
 
     // Start is called before the first frame update
     void Start()
     {
-        rubikcube = GameObject.Find("GameManager").GetComponent<RubicCube>();
+ 
 
-        if (inverseX)
-        {
-            isCW_X = false;
-        }
-        if(inverseY)
-        {
-            isCW_Y = false;
-        }
+        rubikcube = GameObject.Find("GameManager").GetComponent<RubicCube>();
+        panelname = gameObject.tag;
     }
 
     private void OnEnable()
     {
-        GetComponent<FlickGesture>().Flicked += OnFlick;
         GetComponent<ReleaseGesture>().Released += OnReleased;
         GetComponent<PressGesture>().Pressed += OnPressed;
     }
 
     private void OnDisable()
     {
-        GetComponent<FlickGesture>().Flicked -= OnFlick;
         GetComponent<PressGesture>().Pressed -= OnPressed;
         GetComponent<ReleaseGesture>().Released -= OnReleased;
     }
@@ -51,6 +44,9 @@ public class TouchController : MonoBehaviour
 
         var gesture = sender as PressGesture;
         pressedposition = gesture.ScreenPosition;
+
+        //Debug.Log("tag: " + tag );
+        //Debug.Log("cubename: " + transform.parent.parent.parent.name );
 
     }
     private void OnReleased(object sender, EventArgs e)
@@ -66,7 +62,31 @@ public class TouchController : MonoBehaviour
         Vector3 wp2b = new Vector3(gesture.ScreenPosition.x, gesture.ScreenPosition.y, distanceFromCamera);
         wp2b = Camera.main.ScreenToWorldPoint(wp2b);
 
-        Vector3 velocity2 = (wp2b - wp1b) / .06f;
+        Vector3 velocity = (wp2b - wp1b) / .06f;
+        Vector3 velocity2 = Vector3.zero;
+
+        //  velocity's cordinate change to  panel coordinate from world coordinate
+        switch (panelname)
+        {
+            case "frontpanel":
+                velocity2 = GameObject.Find("transform_frontpanel").transform.InverseTransformVector(velocity);
+                break;
+            case "backpanel":
+                velocity2 = GameObject.Find("transform_backpanel").transform.InverseTransformVector(velocity);
+                break;
+            case "toppanel":
+                velocity2 = GameObject.Find("transform_toppanel").transform.InverseTransformVector(velocity);
+                break;
+            case "bottompanel":
+                velocity2 = GameObject.Find("transform_bottompanel").transform.InverseTransformVector(velocity);
+                break;
+            case "rightpanel":
+                velocity2 = GameObject.Find("transform_rightpanel").transform.InverseTransformVector(velocity);
+                break;
+            case "leftpanel":
+                velocity2 = GameObject.Find("transform_leftpanel").transform.InverseTransformVector(velocity);
+                break;
+        }
 
         if (velocity2 == Vector3.zero)
         {
@@ -80,60 +100,8 @@ public class TouchController : MonoBehaviour
 
     }
 
-    // フリックジェスチャーが成功すると呼ばれるメソッド
-    private void OnFlick(object sender, System.EventArgs e)
-    {
-
-        var gesture = sender as FlickGesture;
-        string str = "Flick: " + gesture.ScreenFlickVector + " (" + gesture.ScreenFlickTime + "秒)";
-        Debug.Log(str);
-
-        float distanceFromCamera = Vector3.Distance(transform.position, Camera.main.transform.position);
-
-        Vector3 wp1 = new Vector3(gesture.PreviousScreenPosition.x, gesture.PreviousScreenPosition.y, distanceFromCamera);
-        wp1 = Camera.main.ScreenToWorldPoint(wp1);
-
-        Vector3 wp2 = new Vector3(gesture.ScreenPosition.x, gesture.ScreenPosition.y, distanceFromCamera);
-        wp2 = Camera.main.ScreenToWorldPoint(wp2);
-
-        //Vector3 wp3 = new Vector3(gesture.PreviousScreenPosition.x + gesture.ScreenFlickVector.x, gesture.PreviousScreenPosition.y + gesture.ScreenFlickVector.y, distanceFromCamera);
-        //wp2 = Camera.main.ScreenToWorldPoint(wp2);
-
-        Vector3 velocity = (wp2 - wp1) / gesture.FlickTime;
-        //Vector3 velocity = (wp3 - wp1) / gesture.FlickTime;
-
-
-        //Debug.Log("gesture.PreviousScreenPosition:　" + gesture.PreviousScreenPosition);
-        //Debug.Log("gesture.ScreenPosition:　" + gesture.ScreenPosition);
-        Debug.Log("wp1 : " + wp1);
-        Debug.Log("wp2 : " + wp2);
-        //Debug.Log("wp3 : " + wp3);
-
-
-
-
-
-
-        //Debug.Log("gesture.FlickTime:　" + gesture.FlickTime);
-
-        Debug.Log("velocity:" + velocity);
-
-        if (velocity == Vector3.zero)
-        {
-            Debug.Log("zero :" + velocity);
-
-            return;
-        }
-
-        //rotate(velocity, layerX, layerY);
-
-
-    }
-
     public void rotate(Vector3 velocity, ELayer layerX, ELayer layerY)
     {
-    
-  
 
         if (Mathf.Abs(velocity.x) > Mathf.Abs(velocity.y))
         {
@@ -163,3 +131,7 @@ public class TouchController : MonoBehaviour
         }
     }
 }
+
+
+
+
