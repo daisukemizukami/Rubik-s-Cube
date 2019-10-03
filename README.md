@@ -3,21 +3,13 @@
 
 
 
-##
-
-1. 
-
-2. 
-
-3. 
-
-4.
 
 
-##Summary:
+
+## Summary:
 Magic cube (Rubic’s cube) puzzle game. The player is able to choose the dimensions of the cube and try to solve the puzzle. The player can quit the app and later continue his last game.
 
-Details:
+### Details:
 When the application is started the player arrives at the title screen. From the title screen he is able to start a new game or continue his last game if he hasn’t finished it yet.
 
 When starting a new game, the player is able to choose the size of the cube, any size from 2x2x2 to 6x6x6 should be possible. 
@@ -26,7 +18,7 @@ Once the player has decided to start a new game or continue his last game, he is
 
 On the game screen he can see the cube, a menu button, a timer and an undo button.
 
-Gameplay:
+### Gameplay:
 When starting a new game, at first the cube is shown in its solved state and then it starts getting scrambled by rotation. After few seconds the scrambling stops, and from that moment the timer starts counting the time passed, the player is allowed to manipulate the cube and the game is considered to be started. 
 
 After it is started, the game finishes when each face of the cube only contains the same type of tiles. 
